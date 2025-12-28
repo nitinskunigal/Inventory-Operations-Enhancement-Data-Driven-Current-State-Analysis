@@ -1,8 +1,16 @@
 # Inventory Operations Enhancement - Data Analysis Phase (Feeds the Business Analysis Phase)
 
+## Table of Contents
 
+- [1. Project Context](#1-project-context)
+- [2. How This Analysis Feeds the Business Analysis Phase](#2-how-this-analysis-feeds-the-business-analysis-phase)
+- [3. Objective of This Data Analysis Phase](#3-objective-of-this-data-analysis-phase)
+- [4. Data Sources](#4-data-sources)
+- [5. Insights and Root Causes](#5-insights-and-root-causes)
+- [6. Why Recommendations Are Not Included Here](#6-why-recommendations-are-not-included-here)
+- [7. Key Deliverables and Links](#7-key-deliverables-and-links)
 
-## 1. Project Context – How This Analysis Fits Into the BA Engagement
+## 1. Project Context
 
 This repository contains the **Data Analysis phase** of a broader **Business Analysis (BA) initiative** focused on enhancing inventory execution and control for MapleDash Grocers, a simulated mid-sized e-grocery retailer operating five fulfillment centers (warehouses) across the Greater Toronto Area.
 
@@ -72,7 +80,7 @@ All datasets used in this analysis were sourced from **historical operational ex
 
 ---
 
-## 5. Insights & Root Causes
+## 5. Insights and Root Causes
 
 Root causes listed below are **data-indicated hypotheses** derived from observed patterns. Formal validation and solution design occur during the Business Analysis phase.
 
@@ -351,7 +359,7 @@ These occur in the **Business Analysis phase**, where this analysis serves as va
 
 ---
 
-## 7. Key Deliverables & Links
+## 7. Key Deliverables and Links
 
 - Interactive Power BI Dashboard  
 - **[Screenshots of Power BI Report Pages](https://github.com/nitinskunigal/Inventory-Operations-Enhancement-Initiative-Data-Analysis-Phase/tree/main/DA%20Deliverables/Screenshots%20of%20Power%20BI%20Report%20Pages)**  
