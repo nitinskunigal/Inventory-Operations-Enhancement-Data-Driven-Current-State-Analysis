@@ -70,41 +70,37 @@ All datasets used in this analysis were sourced from **historical operational ex
 **Important clarifications:**
 - These systems are **data sources**, not subjects of redesign here  
 - Supplier data reflects **observed inbound performance**, not live integrations  
-- Lead time and OTD are **contextual metrics**, not controlled variables  
-
-**Technical approach:**
-- CSV files used as primary data sources  
-- No SQL extraction required  
+- Lead time and OTD are **contextual metrics**, not controlled variables
 - Power BI was used as an analytical tool for this assessment to analyze CSV extracts exported from MapleDash’s operational systems, reflecting MapleDash’s current analytical maturity.
-- Automated pipelines and database-driven reporting are planned as part of future BA-led initiatives but were not in scope for this assessment.  
+- Automated pipelines and database-driven reporting are planned as part of future BA-led initiatives but were not in scope for this assessment.
 
 ---
 
 ## 5. Insights and Root Causes
 
-Root causes listed below are **data-indicated hypotheses** derived from observed patterns. Formal validation and solution design occur during the Business Analysis phase.
+This section translates dashboard visuals into operational understanding. Rather than listing KPIs or isolated observations, the insights below explain what is happening, why it matters operationally, and where risk is accumulating across inventory, demand, warehouse execution, and inbound supply. All insights are derived from observed patterns in the data. Root causes are data-indicated hypotheses, not finalized conclusions. In real Business Analysis practice, these hypotheses are validated later through stakeholder interviews, process walkthroughs, and feasibility assessment. The purpose here is diagnosis, not solution design.
 
 ### 5.1 Executive Inventory Snapshot – Category-Level Context
 
-![5.1](https://github.com/nitinskunigal/Inventory-Operations-Enhancement-Initiative-Data-Analysis-Phase/blob/main/DA%20Deliverables/Screenshots%20of%20Visuals%20for%20Insights/5.1%20Executive%20Inventory%20Snapshot%20%E2%80%93%20Systemic%20Inventory%20Health.png)
-
-**Business Questions Answered**
-- Which categories drive inventory value?
-- Which categories depress turnover?
-- Is poor turnover systemic or category-specific?
+<p align="center">
+  Inventory value is concentrated in slow-moving categories, suppressing overall turnover while masking stockout risk in faster-moving categories
+</p>
+<p align="center">
+  <img src=https://github.com/nitinskunigal/Inventory-Operations-Enhancement-Initiative-Data-Analysis-Phase/blob/main/DA%20Deliverables/Screenshots%20of%20Visuals%20for%20Insights/5.1%20Executive%20Inventory%20Snapshot%20%E2%80%93%20Systemic%20Inventory%20Health.png alt=5.1 width="1000"/>
+</p>
 
 **Insights**
-- Over 60% of inventory value is tied to long-expiry stock  
-- Slow-moving categories hold disproportionate inventory value and exhibit very low turnover, inflating Days of Inventory
-- Perishables move faster but operate with tighter buffers.  
 
-**Implication**
-- Aggregate KPIs mask category-level inefficiencies  
+At an aggregate level, MapleDash’s inventory appears heavily capitalized, with approximately $1.6M in total inventory value. However, a category-level view reveals that more than 60% of this value is tied up in long-expiry inventory exceeding 90 days. This concentration is not evenly distributed across categories.
+
+Slow-moving categories such as Beverages, Pantry, Household, and Personal Care hold a disproportionate share of inventory value while exhibiting very low turnover. In contrast, perishable and high-velocity categories move inventory faster but operate with much tighter buffers. As a result, overall inventory KPIs present a misleading picture: weak turnover appears systemic, while the real risk is unevenly distributed between overstocked slow movers and under-buffered fast movers.
+
+Operationally, this imbalance creates a dual problem. Working capital is locked in categories with limited demand velocity, while categories that drive fulfillment volume are more exposed to execution delays and stockouts. This explains why fulfillment issues can occur even when total inventory levels appear sufficient.
 
 **Data-Indicated Root Causes**
-- MOQ (Minimum Order Quantity)-driven procurement
-- Uniform replenishment logic across fundamentally different categories
-- Weak coupling between demand velocity and stocking behavior.
+- Replenishment logic appears category-agnostic, applying similar rules across products with vastly different shelf lives.
+- Procurement behavior is likely influenced by minimum order quantities and cost incentives, encouraging bulk purchases in slow-moving categories.
+- Weak alignment between demand velocity and stocking behavior, particularly for ambient, long-shelf-life items.
 
 ---
 
@@ -112,70 +108,64 @@ Root causes listed below are **data-indicated hypotheses** derived from observed
 
 #### 5.2.1 SKU Portfolio Structure & Revenue Exposure (ABC)
 
-![5.2.1 ABC Pareto Chart](https://github.com/nitinskunigal/Inventory-Operations-Enhancement-Initiative-Data-Analysis-Phase/blob/main/DA%20Deliverables/Screenshots%20of%20Visuals%20for%20Insights/5.2%20Demand%20Volatility%2C%20Revenue%20Concentration%20%26%20SKU%20Risk%20(ABC%E2%80%93XYZ)/5.2.1%20Distribution%20of%20SKUs%20%26%20Revenue%20Share%20Across%20ABC.png) 
-![5.2.1 Revenue by ABC & Category Mix](https://github.com/nitinskunigal/Inventory-Operations-Enhancement-Initiative-Data-Analysis-Phase/blob/main/DA%20Deliverables/Screenshots%20of%20Visuals%20for%20Insights/5.2%20Demand%20Volatility%2C%20Revenue%20Concentration%20%26%20SKU%20Risk%20(ABC%E2%80%93XYZ)/5.2.1%20Revenue%20by%20ABC%20%26%20Category%20Mix.png)
-
-**Business Questions Answered**
-- How concentrated is revenue across the SKU portfolio?
-- How many SKUs are revenue-critical?
-- Which categories dominate A-class revenue?
+<p align="center"> Revenue-critical SKUs are not a narrow subset, expanding execution risk across a large portion of the assortment</p>
+<p align="center">
+  <img src=https://github.com/nitinskunigal/Inventory-Operations-Enhancement-Initiative-Data-Analysis-Phase/blob/main/DA%20Deliverables/Screenshots%20of%20Visuals%20for%20Insights/5.2%20Demand%20Volatility%2C%20Revenue%20Concentration%20%26%20SKU%20Risk%20(ABC%E2%80%93XYZ)/5.2.1%20Distribution%20of%20SKUs%20%26%20Revenue%20Share%20Across%20ABC.png alt=5.2.1 ABC Pareto Chart width="600"/>
+</p>
+<p align="center">
+  <img src=https://github.com/nitinskunigal/Inventory-Operations-Enhancement-Initiative-Data-Analysis-Phase/blob/main/DA%20Deliverables/Screenshots%20of%20Visuals%20for%20Insights/5.2%20Demand%20Volatility%2C%20Revenue%20Concentration%20%26%20SKU%20Risk%20(ABC%E2%80%93XYZ)/5.2.1%20Revenue%20by%20ABC%20%26%20Category%20Mix.png alt=5.2.1 Revenue by ABC & Category Mix width="600"/>
+</p>
 
 **Insights**
-- A-class contains the largest share of SKUs
-- These SKUs collectively drive most revenue
-- Revenue concentration exists across multiple categories
 
-**Implication**
-- Execution reliability is required across a broad SKU base
-- •	Errors in inventory accuracy affect many SKUs, not just a few.
+Unlike a classic Pareto distribution, MapleDash’s A-class SKUs are not limited to a small, tightly controlled group. Instead, A-class represents a large share of the overall SKU base while collectively driving the majority of revenue. This means that execution reliability is required across many SKUs, not just a handful of top sellers.
+
+Revenue concentration within A-class SKUs is particularly strong in categories such as Frozen, Meat, Seafood, and Personal Care. These categories are both operationally intensive and customer-critical, amplifying the impact of inventory inaccuracies, delayed replenishment, or picking disruptions. Any execution failure in these SKUs disproportionately affects sales performance and customer experience.
 
 **Data-Indicated Root Causes**
-- SKU assortment expanded without execution-tier differentiation.
-- No operational prioritization for revenue-critical SKUs.
-- Inventory policies treat high- and low-impact SKUs similarly.
+- SKU assortment expanded without tiered execution controls based on revenue impact.
+- No operational prioritization differentiating revenue-critical SKUs from low-impact items.
+- Uniform inventory policies applied across SKUs with very different business criticality.
 
 ---
 
-#### 5.2.2 Combined ABC–XYZ Risk Profile
+#### 5.2.2 Combined ABC–XYZ Risk Profile - Strategic SKU Misalignment
 
-![5.2.2](https://github.com/nitinskunigal/Inventory-Operations-Enhancement-Initiative-Data-Analysis-Phase/blob/main/DA%20Deliverables/Screenshots%20of%20Visuals%20for%20Insights/5.2%20Demand%20Volatility%2C%20Revenue%20Concentration%20%26%20SKU%20Risk%20(ABC%E2%80%93XYZ)/5.2.2%20Revenue%20%26%20Order%20Distribution%20Across%20ABC%E2%80%93XYZ.png)
-
-**Business Questions Answered**
-- Which SKUs are both high-value and volatile?
-- Where is execution risk concentrated?
+<p align="center"> High-value, volatile SKUs dominate both revenue and workload, concentrating execution risk where failures hurt most </p>
+<p align="center">
+  <img src=https://github.com/nitinskunigal/Inventory-Operations-Enhancement-Initiative-Data-Analysis-Phase/blob/main/DA%20Deliverables/Screenshots%20of%20Visuals%20for%20Insights/5.2%20Demand%20Volatility%2C%20Revenue%20Concentration%20%26%20SKU%20Risk%20(ABC%E2%80%93XYZ)/5.2.2%20Revenue%20%26%20Order%20Distribution%20Across%20ABC%E2%80%93XYZ.png alt=5.2.2 width="600"/>
+</p>
 
 **Insights**
-- A/Y and A/Z SKUs dominate revenue and workload
-- High volatility + high value creates execution risk (stockouts and overselling)
-- C/X empty → low-value products rarely have stable demand, typical for e-grocery.
 
-**Implication**
-- These SKUs must be protected by system-driven controls.  
+When SKU value (ABC) is combined with demand volatility (XYZ), execution risk becomes highly concentrated. A/Y and A/Z SKUs dominate both revenue contribution and operational workload. These SKUs are simultaneously high-value and unpredictable, making them the most exposed to overselling, stockouts, and replenishment failures.
+
+The absence of C/X SKUs, which would represent low-value, stable demand items, is typical for e-grocery and confirms that stable, low-risk demand is rare. As a result, MapleDash operates in an environment where most operational effort is concentrated on SKUs that require tight execution discipline. Manual controls and uniform rules struggle to scale under this level of volatility.
 
 **Data-Indicated Root Causes**
-- ABC–XYZ classification not operationalized
-- No differentiated safeguards for high-risk SKUs.
+- ABC–XYZ classification exists analytically but is not operationalized.
+- High-risk SKUs lack differentiated safeguards or priority handling.
+- Execution controls rely on manual intervention rather than system-directed rules.
 
 ---
 
 #### 5.2.3 Demand Volatility & Workload Instability (XYZ)
 
-![5.2.3](https://github.com/nitinskunigal/Inventory-Operations-Enhancement-Initiative-Data-Analysis-Phase/blob/main/DA%20Deliverables/Screenshots%20of%20Visuals%20for%20Insights/5.2%20Demand%20Volatility%2C%20Revenue%20Concentration%20%26%20SKU%20Risk%20(ABC%E2%80%93XYZ)/5.2.3%20Distribution%20of%20Orders%20Across%20XYZ.png)
-
-**Business Questions Answered**
-- How volatile is demand?
-- How predictable is daily operational workload?
+<p align="center"> Sustained demand volatility undermines static replenishment and cycle counting practices </p>
+<p align="center">
+  <img src=https://github.com/nitinskunigal/Inventory-Operations-Enhancement-Initiative-Data-Analysis-Phase/blob/main/DA%20Deliverables/Screenshots%20of%20Visuals%20for%20Insights/5.2%20Demand%20Volatility%2C%20Revenue%20Concentration%20%26%20SKU%20Risk%20(ABC%E2%80%93XYZ)/5.2.3%20Distribution%20of%20Orders%20Across%20XYZ.png alt=5.2.3 width="1000"/>
+</p>
 
 **Insights**
-- Y-class dominates order volume (total orders and avg. daily orders), indicating demand imbalance compared to Z.
-- Z-class causes promotion-driven spikes.  
 
-**Implication**
-- Static execution rules fail under volatility
-- Manual interventions increase under volatile demand.
+Y-class demand dominates order volume, indicating persistent variability rather than isolated spikes. Z-class demand introduces periodic surges, often tied to promotions, further destabilizing workload patterns. This volatility directly affects replenishment timing, picking efficiency, and cycle count effectiveness.
+
+In an environment where demand is neither stable nor predictable, static replenishment cadences and manual cycle count planning become increasingly ineffective. Operational teams are forced into reactive behavior, increasing supervisor intervention and reducing system trust.
 
 **Data-Indicated Root Cause**
-- Replenishment cadence not aligned with volatility.
+- Replenishment cadence not aligned with demand volatility.
+- Cycle counting not risk-weighted based on SKU volatility.
+- Execution rules assume stability that does not exist in practice.
 
 ---
 
@@ -183,166 +173,111 @@ Root causes listed below are **data-indicated hypotheses** derived from observed
 
 #### 5.3.1 Demand Velocity vs Inventory Coverage
 
-![5.3.1](https://github.com/nitinskunigal/Inventory-Operations-Enhancement-Initiative-Data-Analysis-Phase/blob/main/DA%20Deliverables/Screenshots%20of%20Visuals%20for%20Insights/5.3%20Inventory%20Distribution%2C%20Velocity%20%26%20Execution%20Risk/5.3.1%20Demand%20Velocity%20vs%20Inventory%20Coverage.png)
-
-**Business Questions Answered**
-- Is inventory aligned with actual consumption?
-- Where are stockouts likely despite healthy totals?
+<p align="center"> Inventory is positioned opposite to consumption patterns, creating simultaneous overstocking and stockouts </p>
+<p align="center">
+  <img src=https://github.com/nitinskunigal/Inventory-Operations-Enhancement-Initiative-Data-Analysis-Phase/blob/main/DA%20Deliverables/Screenshots%20of%20Visuals%20for%20Insights/5.3%20Inventory%20Distribution%2C%20Velocity%20%26%20Execution%20Risk/5.3.1%20Demand%20Velocity%20vs%20Inventory%20Coverage.png alt=5.3.1 width="800"/>
+</p>
 
 **Insights**
-- Fast-moving categories have lower coverage.
-- Slow movers carry excess stock.
 
-**Implication**
-- Stockouts coexist with overstocking
-- Replenishment is misaligned with demand reality.
+Fast-moving categories such as Fresh Produce, Frozen, and Meat operate with lower days of cover, while slow-moving categories carry excess coverage relative to demand. This misalignment creates a paradox where stockouts and overstocking coexist across the network.
+
+Even when total inventory appears sufficient, high-velocity categories run closer to risk due to tighter buffers and execution delays. Meanwhile, excess inventory in slow movers suppresses overall turnover and inflates holding costs. The issue is not total inventory quantity, but where inventory is positioned relative to demand.
 
 **Data-Indicated Root Causes**
-- Purchase quantities driven by supplier constraints.
-- Poor backstock-to-pick-zone translation.
+- Purchase quantities driven by supplier constraints rather than consumption patterns.
+- Weak translation of backstock into pick-face availability.
+- Replenishment rules not calibrated to demand velocity.
 
 ---
 
 #### 5.3.2 FIFO vs FEFO Execution Discipline
 
-![5.3.2](https://github.com/nitinskunigal/Inventory-Operations-Enhancement-Initiative-Data-Analysis-Phase/blob/main/DA%20Deliverables/Screenshots%20of%20Visuals%20for%20Insights/5.3%20Inventory%20Distribution%2C%20Velocity%20%26%20Execution%20Risk/5.3.2%20FIFO%20vs%20FEFO%20Execution%20Discipline.png)
-
-**Business Questions Answered**
-- Is expiry risk operationally managed?
-- Are perishable SKUs rotated correctly?
+<p align="center"> Expiry risk is driven by execution discipline gaps, not forecasting or demand </p>
+<p align="center">
+  <img src=https://github.com/nitinskunigal/Inventory-Operations-Enhancement-Initiative-Data-Analysis-Phase/blob/main/DA%20Deliverables/Screenshots%20of%20Visuals%20for%20Insights/5.3%20Inventory%20Distribution%2C%20Velocity%20%26%20Execution%20Risk/5.3.2%20FIFO%20vs%20FEFO%20Execution%20Discipline.png alt=5.3.2 width="400"/>
+</p>
 
 **Insights**
-- Short shelf-life categories show FEFO leakage.
-- Expiry risk is execution-driven, not demand-driven.
 
-**Implication**
-- Spoilage risk is execution-driven  
+Short shelf-life categories show clear leakage between FIFO and FEFO value, indicating that inventory is not consistently rotated based on expiry. This leakage persists even when headline expiry KPIs appear manageable, suggesting that risk is embedded in day-to-day execution rather than demand forecasting errors.
+
+Operationally, this means spoilage and markdown risk is introduced through handling and placement decisions, not through excessive inventory levels alone. Without enforced FEFO logic at execution points, expiry exposure accumulates silently.
 
 **Data-Indicated Root Cause**
-- FEFO not enforced operationally
+- FEFO not enforced during putaway and picking.
+- Expiry attributes not operationalized in execution workflows.
+- Manual judgment substituting for system-driven rotation logic.
 
 ---
 
 ### 5.4 Warehouse Throughput & Network Imbalance
 
-![5.4](https://github.com/nitinskunigal/Inventory-Operations-Enhancement-Initiative-Data-Analysis-Phase/blob/main/DA%20Deliverables/Screenshots%20of%20Visuals%20for%20Insights/5.4%20Warehouse%20Throughput%20%26%20Network%20Imbalance.png)
-
-**Business Question Answered**
-- Is operational workload evenly distributed across the fulfillment network?
+<p align="center"> Execution risk is amplified by uneven workload distribution across fulfillment centers </p>
+<p align="center">
+  <img src=https://github.com/nitinskunigal/Inventory-Operations-Enhancement-Initiative-Data-Analysis-Phase/blob/main/DA%20Deliverables/Screenshots%20of%20Visuals%20for%20Insights/5.4%20Warehouse%20Throughput%20%26%20Network%20Imbalance.png alt=5.4 width="1000"/>
+</p>
 
 **Insights**
-- Three FCs contribute over 70% of revenue and order volume, while others remain underutilized.
-- Category mix varies significantly by FC, creating uneven operational load.
 
-**Implication**
-- Congested FCs amplify the impact of inbound delays and inventory inaccuracies.  
+Three fulfillment centers account for over 70% of total order volume and revenue, while the remaining facilities operate at significantly lower throughput. Category mix varies sharply by location, with high-volume FCs handling more complex, fast-moving assortments.
+
+This imbalance magnifies the impact of execution gaps. Inbound delays, replenishment failures, or inventory inaccuracies have a non-linear effect in high-throughput locations, where volume leaves little room for recovery. Meanwhile, unused capacity exists elsewhere in the network, but without systematic rebalancing mechanisms.
 
 **Data-Indicated Root Causes**
-- Inventory allocation does not align with geographic demand.
-- Inbound scheduling and replenishment rules are FC-agnostic.
-- No systematic balancing mechanism across warehouses.
+- Inventory allocation not aligned with geographic demand patterns.
+- One-size-fits-all execution rules applied across heterogeneous FCs.
+- Limited system awareness of FC-specific demand velocity and volatility.
 
 ---
 
 ### 5.5 Supplier Reliability & Inbound Risk Exposure
 
-Supplier metrics provide **risk context**, not solution levers.
-
 #### 5.5.1 Supplier Performance Matrix (Reliability vs Lead Time)
 
-![5.5.1](https://github.com/nitinskunigal/Inventory-Operations-Enhancement-Initiative-Data-Analysis-Phase/blob/main/DA%20Deliverables/Screenshots%20of%20Visuals%20for%20Insights/5.5%20Supplier%20Reliability%20%26%20Inbound%20Risk%20Exposure/5.5.1%20Supplier%20Performance%20Matrix%20(Reliability%20vs%20Lead%20Time).png)
-
-**Business Question Answered**
-- How predictable is inbound supply into the warehouses?
+<p align="center"> Inbound unpredictability requires execution controls that absorb variability, not assume plan adherence </p>
+<p align="center">
+  <img src=https://github.com/nitinskunigal/Inventory-Operations-Enhancement-Initiative-Data-Analysis-Phase/blob/main/DA%20Deliverables/Screenshots%20of%20Visuals%20for%20Insights/5.5%20Supplier%20Reliability%20%26%20Inbound%20Risk%20Exposure/5.5.1%20Supplier%20Performance%20Matrix%20(Reliability%20vs%20Lead%20Time).png alt=5.5.1 width="500"/>
+</p>
 
 **Insights**
-- Overall supplier OTD averages 66.7%, well below grocery benchmarks.
-- Many suppliers exhibit both low reliability and long lead times.
 
-**Implication**
-- Inbound predictability is low
-- Inventory planning based on expected receipts is fragile.
-- Execution controls must absorb variability.
+Average supplier on-time delivery stands at approximately 66.7%, well below typical grocery benchmarks. Many suppliers combine low reliability with long lead times, creating inherently unpredictable inbound flows. Disruption from a single supplier can cascade across multiple fulfillment centers.
+
+This variability weakens inventory planning assumptions and increases reliance on execution discipline. When inbound receipts cannot be trusted, systems must delay ATP release and enforce validation points to prevent downstream distortion.
 
 **Data-Indicated Root Causes**
-- No reliability-based supplier segmentation
-- Inbound processes assume plan adherence rather than execution variability.
-- Limited feedback loop from operations to procurement.
+- Suppliers not segmented by reliability or criticality.
+- Inbound processes assume plan adherence rather than variability.
+- Limited operational feedback into procurement decisions.
 
 ---
 
 #### 5.5.2 Supplier Cost vs Reliability Tradeoff
 
-![5.5.2](https://github.com/nitinskunigal/Inventory-Operations-Enhancement-Initiative-Data-Analysis-Phase/blob/main/DA%20Deliverables/Screenshots%20of%20Visuals%20for%20Insights/5.5%20Supplier%20Reliability%20%26%20Inbound%20Risk%20Exposure/5.5.2%20Supplier%20Cost%20vs%20Reliability%20Tradeoff.png)
-
-**Business Question Answered**
-- How much variability exists in replenishment lead times?
+<p align="center"> Unit cost optimization masks downstream execution cost and risk </p>
+<p align="center">
+  <img src=https://github.com/nitinskunigal/Inventory-Operations-Enhancement-Initiative-Data-Analysis-Phase/blob/main/DA%20Deliverables/Screenshots%20of%20Visuals%20for%20Insights/5.5%20Supplier%20Reliability%20%26%20Inbound%20Risk%20Exposure/5.5.2%20Supplier%20Cost%20vs%20Reliability%20Tradeoff.png alt=5.5.2 width="600"/>
+</p>
 
 **Insights**
-- Several higher-cost suppliers deliver unreliably.
-- Some lower-cost suppliers perform better but are underutilized.
-- No dominant “low-cost, high-reliability” supplier group exists.
 
-**Implication**
-- Operational inefficiency offsets unit-cost savings
+Several higher-cost suppliers still deliver unreliably, while some lower-cost suppliers perform better but are underutilized. No clear “low-cost, high-reliability” supplier group exists, indicating that procurement decisions may not fully account for execution impact.
+
+Operational inefficiencies such as expediting, buffering, and firefighting often offset perceived unit cost savings. Without visibility into this trade-off, cost-focused decisions inadvertently increase operational risk.
 
 **Data-Indicated Root Causes**
 - Supplier evaluation lacks multi-dimensional scoring.
-- Reliability is not weighted sufficiently in purchasing decisions.
-- Inventory buffers compensate for supplier issues instead of addressing them.
-
----
-
-#### 5.5.3 Supplier Concentration Risk
-
-![5.5.3](https://github.com/nitinskunigal/Inventory-Operations-Enhancement-Initiative-Data-Analysis-Phase/blob/main/DA%20Deliverables/Screenshots%20of%20Visuals%20for%20Insights/5.5%20Supplier%20Reliability%20%26%20Inbound%20Risk%20Exposure/5.5.3%20Supplier%20Concentration%20Risk.png)
-
-**Business Question Answered**
-- How exposed is MapleDash to supplier dependency risk?
-
-**Insights**
-- Top 3 suppliers account for 28% of total ATP, nearing concentration risk thresholds.
-
-**Implication**
-- Disruption from a single supplier can cascade across multiple FCs.
-- System resilience becomes critical.
-
-**Data-Indicated Root Causes**
-- Limited dual sourcing for critical SKUs.
-- No supplier criticality classification.
-- Inventory policies do not adjust for dependency risk.
-
----
-
-### 5.6 Sales Pressure & Operational Load Context
-
-![5.6](https://github.com/nitinskunigal/Inventory-Operations-Enhancement-Initiative-Data-Analysis-Phase/blob/main/DA%20Deliverables/Screenshots%20of%20Visuals%20for%20Insights/5.6%20Sales%20Pressure%20%26%20Operational%20Load%20Context.png)
-
-**Business Question Answered**
-- Are operational issues demand-driven or execution-driven?
-
-**Insights**
-- Demand peaks mid-year with clear seasonal spikes.
-- Promotions drive volatility rather than steady baseline demand.
-
-**Implication**
-- Inventory and replenishment systems must react to execution timing, not forecasts alone.
-- Manual controls struggle during peak periods.  
-
-**Data-Indicated Root Causes**
-- Replenishment logic is not seasonality-aware.
-- Inventory updates lag during peak operational load.
-- Process design assumes stable demand patterns that do not exist.
+- Reliability underweighted relative to unit cost.
+- Execution impact of delays not fully quantified.
 
 ---
 
 ### 5.7 Closing Insight
 
-Collectively, these insights show that MapleDash’s challenges stem from:
-- Execution timing gaps
-- SKU-level imbalance hidden by aggregates
-- Supplier variability that must be absorbed operationally
-- Overreliance on manual intervention
+Collectively, these insights show that MapleDash’s challenges are not driven by missing systems or insufficient data. Instead, risk accumulates through execution timing gaps, SKU-level imbalance hidden by aggregates, uneven workload distribution, and inbound variability that the current operating model cannot absorb.
+
+These patterns explain why manual intervention has become the dominant control mechanism and why performance degrades as scale increases. The findings directly inform the Business Analysis phase, where system-directed execution, automated inventory updates, and exception-based controls are designed to close these gaps.
 
 ---
 
