@@ -60,16 +60,11 @@ This analysis focuses on **what is happening and where risks exist**, not on pre
 
 ## 4. Data Sources
 
-All datasets used in this analysis were sourced from **historical operational extracts** made available for analytical assessment.
+The datasets used in this project were synthetically generated to reflect realistic operational extracts from inventory, order, and supplier systems. As with most operational data, they exhibited moderate-to-high inconsistencies, structural risks, and edge cases that required deliberate cleaning and validation before analysis. The data was modeled to resemble CSV-based exports commonly produced by systems such as IMS and OMS in mid-sized organizations.
 
-**Data Sources:**
-- **Inventory Management System (IMS):** Inventory snapshots  
-- **Order Management System (OMS):** Customer orders, order quantities, revenue  
-- **Supplier Performance Records:** Historical inbound delivery dates, lead times  
+To ensure analytical reliability, a structured data cleaning and validation framework was applied prior to insight generation. Detailed documentation of this approach can be found in the repository. Here's the [LINK](https://github.com/nitinskunigal/Inventory-Operations-Enhancement-Data-Driven-Current-State-Analysis/blob/main/DA%20Deliverables/Data%20Cleaning%20Framework.pdf)
 
 **Important clarifications:**
-- These systems are **data sources**, not subjects of redesign here  
-- Supplier data reflects **observed inbound performance**, not live integrations  
 - Lead time and OTD are **contextual metrics**, not controlled variables
 - Power BI was used as an analytical tool for this assessment to analyze CSV extracts exported from MapleDash’s operational systems, reflecting MapleDash’s current analytical maturity.
 - Automated pipelines and database-driven reporting are planned as part of future BA-led initiatives but were not in scope for this assessment.
