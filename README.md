@@ -62,7 +62,7 @@ This analysis focuses on **what is happening and where risks exist**, not on pre
 
 The datasets used in this project were synthetically generated to reflect realistic operational extracts from inventory, order, and supplier systems. As with most operational data, they exhibited moderate-to-high inconsistencies, structural risks, and edge cases that required deliberate cleaning and validation before analysis. The data was modeled to resemble CSV-based exports commonly produced by systems such as IMS and OMS in mid-sized organizations.
 
-To ensure analytical reliability, a structured data cleaning and validation framework was applied prior to insight generation. Detailed documentation of this approach can be found in the repository. Here's the [LINK](https://github.com/nitinskunigal/Inventory-Operations-Enhancement-Data-Driven-Current-State-Analysis/blob/main/DA%20Deliverables/Data%20Cleaning%20Framework.pdf)
+To ensure analytical reliability, a structured data cleaning and validation framework was applied prior to insight generation. Detailed documentation of this approach can be found in the [repository](https://github.com/nitinskunigal/Inventory-Operations-Enhancement-Data-Driven-Current-State-Analysis/blob/main/DA%20Deliverables/Data%20Cleaning%20%26%20Validation%20Framework.pdf).
 
 **Important clarifications:**
 - Lead time and OTD are **contextual metrics**, not controlled variables
@@ -295,4 +295,5 @@ These occur in the **Business Analysis phase**, where this analysis serves as va
 - **[Screenshots of Power BI Report Pages](https://github.com/nitinskunigal/Inventory-Operations-Enhancement-Initiative-Data-Analysis-Phase/tree/main/DA%20Deliverables/Screenshots%20of%20Power%20BI%20Report%20Pages)**  
 - **[KPI Dictionary](https://github.com/nitinskunigal/Inventory-Operations-Enhancement-Initiative-Data-Analysis-Phase/blob/main/DA%20Deliverables/KPI%20Dictionary.pdf)**
 - **[Data Dictionary](https://github.com/nitinskunigal/Inventory-Operations-Enhancement-Initiative-Data-Analysis-Phase/blob/main/DA%20Deliverables/Data%20Dictionary.pdf)**
+- **[Data Cleaning & Validation Framework](https://github.com/nitinskunigal/Inventory-Operations-Enhancement-Data-Driven-Current-State-Analysis/blob/main/DA%20Deliverables/Data%20Cleaning%20%26%20Validation%20Framework.pdf)**
 - **[Business Analysis Project Repository](https://github.com/nitinskunigal/Inventory-Operations-Enhancement-Initiative-Business-Analysis-Phase)**
