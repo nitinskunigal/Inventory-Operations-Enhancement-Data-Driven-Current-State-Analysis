@@ -296,4 +296,4 @@ These occur in the **Business Analysis phase**, where this analysis serves as va
 - **[KPI Dictionary](https://github.com/nitinskunigal/Inventory-Operations-Enhancement-Initiative-Data-Analysis-Phase/blob/main/DA%20Deliverables/KPI%20Dictionary.pdf)**
 - **[Data Dictionary](https://github.com/nitinskunigal/Inventory-Operations-Enhancement-Initiative-Data-Analysis-Phase/blob/main/DA%20Deliverables/Data%20Dictionary.pdf)**
 - **[Data Cleaning & Validation Framework](https://github.com/nitinskunigal/Inventory-Operations-Enhancement-Data-Driven-Current-State-Analysis/blob/main/DA%20Deliverables/Data%20Cleaning%20%26%20Validation%20Framework.pdf)**
-- **[Business Analysis Project Repository](https://github.com/nitinskunigal/Inventory-Operations-Enhancement-Initiative-Business-Analysis-Phase)**
+- **[Business Analysis GitHub Repository](https://github.com/nitinskunigal/Inventory-Operations-Enhancement-Initiative-Business-Analysis-Phase)**
